@@ -184,7 +184,6 @@ perpetualDescribe('Solidity libraries', init, (ctx: ITestContext) => {
   });
 
   describe('SignedMath', () => {
-
     it('add()', async () => {
       // First value may be positive or negative, second is always positive.
       expectBN(await ctx.perpetual.testing.lib.add(99, 100)).to.equal(199);
@@ -199,6 +198,34 @@ perpetualDescribe('Solidity libraries', init, (ctx: ITestContext) => {
       expectBN(await ctx.perpetual.testing.lib.sub(99, 99)).to.equal(0);
       expectBN(await ctx.perpetual.testing.lib.sub(99, 100)).to.equal(-1);
       expectBN(await ctx.perpetual.testing.lib.sub(100, 99)).to.equal(1);
+    });
+
+    it('signedAdd()', async () => {
+      // First value may be positive or negative, second is always positive.
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(99, 0)).to.equal(99);
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(99, -0)).to.equal(99);
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(99, 100)).to.equal(199);
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(-99, 99)).to.equal(0);
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(-99, 100)).to.equal(1);
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(-100, 99)).to.equal(-1);
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(-99, -100)).to.equal(-199);
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(99, -99)).to.equal(0);
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(99, -100)).to.equal(-1);
+      expectBN(await ctx.perpetual.testing.lib.signedAdd(100, -99)).to.equal(1);
+    });
+
+    it('signedSub()', async () => {
+      // First value may be positive or negative, second is always positive.
+      expectBN(await ctx.perpetual.testing.lib.signedSub(99, 0)).to.equal(99);
+      expectBN(await ctx.perpetual.testing.lib.signedSub(99, -0)).to.equal(99);
+      expectBN(await ctx.perpetual.testing.lib.signedSub(-99, 100)).to.equal(-199);
+      expectBN(await ctx.perpetual.testing.lib.signedSub(99, 99)).to.equal(0);
+      expectBN(await ctx.perpetual.testing.lib.signedSub(99, 100)).to.equal(-1);
+      expectBN(await ctx.perpetual.testing.lib.signedSub(100, 99)).to.equal(1);
+      expectBN(await ctx.perpetual.testing.lib.signedSub(99, -100)).to.equal(199);
+      expectBN(await ctx.perpetual.testing.lib.signedSub(-99, -99)).to.equal(0);
+      expectBN(await ctx.perpetual.testing.lib.signedSub(-99, -100)).to.equal(1);
+      expectBN(await ctx.perpetual.testing.lib.signedSub(-100, -99)).to.equal(-1);
     });
   });
 

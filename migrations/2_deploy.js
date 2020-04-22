@@ -24,6 +24,8 @@ const {
   getOracleAdjustment,
   getTokenAddress,
   getMinCollateralization,
+  getInsuranceFundAddress,
+  getInsuranceFundFee,
 } = require('./helpers');
 
 // ============ Contracts ============
@@ -42,6 +44,9 @@ const P1Liquidation = artifacts.require('P1Liquidation');
 
 // Price Oracles
 const P1MakerOracle = artifacts.require('P1MakerOracle');
+
+// Proxies
+const P1LiquidatorProxy = artifacts.require('P1LiquidatorProxy');
 
 // Test Contracts
 const TestLib = artifacts.require('Test_Lib');
@@ -128,6 +133,13 @@ async function deployTraders(deployer, network) {
       PerpetualProxy.address,
     ),
   ]);
+  await deployer.deploy(
+    P1LiquidatorProxy,
+    PerpetualProxy.address,
+    P1Liquidation.address,
+    getInsuranceFundAddress(network),
+    getInsuranceFundFee(network),
+  );
 
   // set global operators
   const perpetual = await PerpetualV1.at(PerpetualProxy.address);

@@ -124,6 +124,32 @@ function getMinCollateralization(network) {
   throw new Error('Cannot find minimum collateralization');
 }
 
+function getInsuranceFundAddress(network) {
+  if (isMainnet(network)) {
+    return '0x0000000000000000000000000000000000000000'; // null
+  }
+  if (isKovan(network)) {
+    return '0x0000000000000000000000000000000000000000'; // null
+  }
+  if (isDevNetwork(network)) {
+    return '0x0000000000000000000000000000000000000000'; // null
+  }
+  throw new Error('Cannot find insurance fund address');
+}
+
+function getInsuranceFundFee(network) {
+  if (isMainnet(network)) {
+    return '10000000000000000'; // 1%
+  }
+  if (isKovan(network)) {
+    return '10000000000000000'; // 1%
+  }
+  if (isDevNetwork(network)) {
+    return '10000000000000000'; // 1%
+  }
+  throw new Error('Cannot find insurance fund fee');
+}
+
 module.exports = {
   getChainId,
   isDevNetwork,
@@ -133,4 +159,6 @@ module.exports = {
   getOracleAdjustment,
   getTokenAddress,
   getMinCollateralization,
+  getInsuranceFundAddress,
+  getInsuranceFundFee,
 };
